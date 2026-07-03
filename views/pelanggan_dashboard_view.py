@@ -7,39 +7,56 @@ from controllers.layanan_controller import LayananController
 from controllers.reservasi_controller import ReservasiController, JadwalPenuhError
 from controllers.pembayaran_controller import PembayaranController
 from utils.helpers import format_currency
+from utils.navbar import create_sidebar_navigation
 
 
 def show_pelanggan_dashboard():
     """Dashboard dan portal untuk pelanggan."""
-    from utils.helpers import logout
-
-    col1, col2, col3 = st.columns([3, 1, 1])
-    with col1:
-        st.subheader(" Portal Pelanggan")
-    with col2:
-        st.write("")
-    with col3:
-        if st.button("🚪 Logout"):
-            logout()
-            st.rerun()
-
-    st.write("Selamat datang di portal pelanggan. Silakan buat reservasi, lihat riwayat, dan cek pembayaran Anda.")
-
+    from utils.helpers import logout, add_dashboard_theme
+    
+    add_dashboard_theme()
     pengguna = st.session_state.get('user_data', {})
-    st.write(f"**Nama:** {pengguna.get('nama', '-')}")
-    st.write(f"**Email:** {pengguna.get('email', '-')}")
-    st.write(f"**Nomor HP:** {pengguna.get('nomor_hp', '-')}")
-
-    menu = st.selectbox(
-        "Pilih menu pelanggan:",
-        ["Dashboard", "Buat Reservasi", "Riwayat Reservasi", "Pembayaran"]
+    
+    # Header
+    st.markdown(
+        f"""
+        <div class="dashboard-shell">
+            <div class="dashboard-kicker">Home > Portal Pelanggan</div>
+            <div class="dashboard-title">Portal Pelanggan</div>
+            <p class="dashboard-subtitle">Buat reservasi, lihat riwayat, dan cek pembayaran Anda.</p>
+            <div class="profile-strip">
+                <div class="profile-pill"><span>Nama</span><strong>{pengguna.get('nama', '-')}</strong></div>
+                <div class="profile-pill"><span>Email</span><strong>{pengguna.get('email', '-')}</strong></div>
+                <div class="profile-pill"><span>Nomor HP</span><strong>{pengguna.get('nomor_hp', '-')}</strong></div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
+    
+    st.write("")
+    
+    # Navigation menu - menggunakan sidebar
+    menu_items = [
+        ("Dashboard", "Dashboard"),
+        ("Buat Reservasi", "Buat Reservasi"),
+        ("Riwayat", "Riwayat Reservasi"),
+        ("Pembayaran", "Pembayaran")
+    ]
+    
+    current_page = st.session_state.get('page', 'Dashboard')
+    selected_page = create_sidebar_navigation(menu_items, current_page, key_prefix="pelanggan")
+    
+    st.session_state.page = selected_page
 
     pelanggan_controller = PelangganController()
     barber_controller = BarberController()
     layanan_controller = LayananController()
     reservasi_controller = ReservasiController()
     pembayaran_controller = PembayaranController()
+
+    # Gunakan selected_page dari navbar sebagai menu
+    menu = selected_page
 
     if menu == "Dashboard":
         st.write("#### Informasi Akun")

@@ -56,3 +56,341 @@ def logout():
     st.session_state.user_role = None
     st.session_state.user_data = None
     st.session_state.page = 'login'
+
+def add_background_image(image_path=None):
+    """
+    Menambahkan background image ke halaman Streamlit dengan data URL
+    agar file asset lokal bisa tampil di browser.
+    """
+    import base64
+    import os
+
+    if image_path is None:
+        possible_paths = [
+            "assets/barbershop_bg.png",
+            "assets/barbershop_bg.jpg",
+            "assets/barbershop_bg.jpeg",
+            "barbershop_bg.png",
+            "barbershop_bg.jpg",
+        ]
+
+        image_path = None
+        for path in possible_paths:
+            if os.path.exists(path):
+                image_path = path
+                break
+
+    if image_path and os.path.exists(image_path):
+        try:
+            with open(image_path, "rb") as image_file:
+                image_data = image_file.read()
+
+            header = image_data[:8]
+            is_png = header[:4] == b"\x89PNG"
+            is_jpeg = header[:3] == b"\xff\xd8\xff"
+
+            if not (is_png or is_jpeg):
+                _use_fallback_background()
+                return
+
+            mime_type = "image/png" if is_png else "image/jpeg"
+            encoded_image = base64.b64encode(image_data).decode()
+            image_url = f"data:{mime_type};base64,{encoded_image}"
+
+            st.markdown(
+                f"""
+                <style>
+                .stApp {{
+                    background-image: url('{image_url}') !important;
+                    background-size: cover !important;
+                    background-position: center !important;
+                    background-repeat: no-repeat !important;
+                    background-attachment: fixed !important;
+                }}
+
+                .main .block-container {{
+                    background: rgba(255, 255, 255, 0.88) !important;
+                    padding: 2rem !important;
+                    border-radius: 10px !important;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16) !important;
+                }}
+                </style>
+                """,
+                unsafe_allow_html=True,
+            )
+        except Exception:
+            _use_fallback_background()
+    else:
+        _use_fallback_background()
+
+
+def add_dashboard_theme():
+    """Tema dashboard bergaya modern tanpa mengubah logika aplikasi."""
+    st.markdown(
+        """
+        <style>
+        :root {
+            --barber-ink: #4b3f34;
+            --barber-accent: #55708d;
+            --barber-accent-dark: #405872;
+            --barber-cream: #fbf7ef;
+            --barber-card: #fffaf2;
+            --barber-muted: #817468;
+            --barber-line: #e8dccb;
+            --barber-info: #c8ebe4;
+        }
+
+        .stApp {
+            background:
+                radial-gradient(circle at 20% 0%, rgba(244, 229, 203, 0.55), transparent 28rem),
+                linear-gradient(180deg, #f3eadc 0%, var(--barber-cream) 8rem),
+                var(--barber-cream) !important;
+            color: var(--barber-ink) !important;
+        }
+
+        .main .block-container {
+            max-width: 1180px;
+            padding: 1.6rem 1.6rem 3rem !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+        }
+
+        [data-testid="stSidebar"] {
+            background: #f5ebe0 !important;
+            border-right: none !important;
+        }
+
+        [data-testid="stSidebar"] * {
+            color: var(--barber-ink) !important;
+        }
+
+        [data-testid="stSidebar"] .stButton > button {
+            background: #faf3e8 !important;
+            border: 1px solid #e8dccb !important;
+            border-radius: 12px !important;
+            color: var(--barber-ink) !important;
+            font-weight: 600 !important;
+            font-size: 0.95rem !important;
+            box-shadow: 0 2px 8px rgba(90, 72, 52, 0.06) !important;
+            transition: all 0.2s ease !important;
+            padding: 0.6rem 1rem !important;
+        }
+
+        [data-testid="stSidebar"] .stButton > button:hover {
+            background: #f0e4d4 !important;
+            border-color: #d7c8b7 !important;
+            box-shadow: 0 4px 12px rgba(90, 72, 52, 0.1) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        [data-testid="stSidebar"] .stButton > button[data-baseweb="button"][kind="primary"] {
+            background: #3d3d3d !important;
+            color: #ffffff !important;
+            border-color: #3d3d3d !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        [data-testid="stSidebar"] .stButton > button[data-baseweb="button"][kind="primary"]:hover {
+            background: #2d2d2d !important;
+            border-color: #2d2d2d !important;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--barber-ink) !important;
+            letter-spacing: 0 !important;
+            font-weight: 800 !important;
+        }
+
+        h1 {
+            font-size: 2.1rem !important;
+            text-transform: uppercase;
+        }
+
+        h2, h3 {
+            font-size: 1.35rem !important;
+        }
+
+        hr {
+            border-color: var(--barber-line) !important;
+            margin: 1rem 0 1.2rem !important;
+        }
+
+        div[data-testid="stHorizontalBlock"] > div:has([data-testid="stMetric"]) {
+            background: var(--barber-card) !important;
+            border: 1px solid var(--barber-line) !important;
+            border-radius: 7px !important;
+            box-shadow: 0 14px 32px rgba(90, 72, 52, 0.09) !important;
+            overflow: hidden;
+            padding: 0 !important;
+        }
+
+        div[data-testid="stHorizontalBlock"] > div:has([data-testid="stMetric"])::before {
+            content: "";
+            display: block;
+            height: 2.1rem;
+            background: var(--barber-accent);
+            border-radius: 7px 7px 0 0;
+        }
+
+        [data-testid="stMetric"] {
+            padding: 0.85rem 1rem 1rem !important;
+        }
+
+        [data-testid="stMetricLabel"] {
+            color: var(--barber-muted) !important;
+            font-weight: 800 !important;
+            text-transform: uppercase;
+            letter-spacing: 0 !important;
+        }
+
+        [data-testid="stMetricValue"] {
+            color: var(--barber-ink) !important;
+            font-weight: 800 !important;
+        }
+
+        div[data-testid="stAlert"] {
+            border: 0 !important;
+            border-radius: 7px !important;
+            background: var(--barber-info) !important;
+            color: #24423e !important;
+            box-shadow: 0 10px 24px rgba(90, 72, 52, 0.08) !important;
+        }
+
+        div[data-testid="stAlert"] * {
+            color: #24423e !important;
+        }
+
+        div[data-testid="stDataFrame"],
+        div[data-testid="stTable"],
+        div[data-testid="stForm"],
+        [data-testid="stExpander"] {
+            background: var(--barber-card) !important;
+            border: 1px solid var(--barber-line) !important;
+            border-radius: 7px !important;
+            box-shadow: 0 14px 32px rgba(90, 72, 52, 0.09) !important;
+            padding: 0.7rem !important;
+        }
+
+        div[data-testid="stSelectbox"] label,
+        div[data-testid="stTextInput"] label,
+        div[data-testid="stTextArea"] label,
+        div[data-testid="stDateInput"] label,
+        div[data-testid="stMultiSelect"] label {
+            color: var(--barber-ink) !important;
+            font-weight: 700 !important;
+        }
+
+        div[data-baseweb="select"] > div,
+        input,
+        textarea {
+            background: #f4ecdd !important;
+            border-color: #d7c8b7 !important;
+            border-radius: 7px !important;
+        }
+
+        div.stButton > button {
+            border: 0 !important;
+            border-radius: 7px !important;
+            background: var(--barber-accent) !important;
+            color: #ffffff !important;
+            font-weight: 800 !important;
+            box-shadow: 0 10px 22px rgba(64, 88, 114, 0.22) !important;
+        }
+
+        div.stButton > button:hover {
+            background: var(--barber-accent-dark) !important;
+            color: #ffffff !important;
+        }
+
+        div[data-testid="stTabs"] button[aria-selected="true"] {
+            color: var(--barber-accent) !important;
+            border-bottom-color: var(--barber-accent) !important;
+        }
+
+        .dashboard-shell {
+            background: rgba(255, 250, 242, 0.82);
+            border: 1px solid var(--barber-line);
+            border-radius: 7px;
+            box-shadow: 0 18px 45px rgba(90, 72, 52, 0.10);
+            padding: 1.4rem 1.45rem;
+            margin-bottom: 1.1rem;
+        }
+
+        .dashboard-kicker {
+            color: var(--barber-muted);
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 0.35rem;
+        }
+
+        .dashboard-title {
+            color: var(--barber-ink);
+            font-size: 2rem;
+            line-height: 1.15;
+            font-weight: 900;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .dashboard-subtitle {
+            color: var(--barber-ink);
+            margin: 0.7rem 0 0;
+        }
+
+        .profile-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .profile-pill {
+            background: rgba(255, 250, 242, 0.92);
+            border: 1px solid var(--barber-line);
+            border-radius: 7px;
+            color: var(--barber-ink);
+            padding: 0.65rem 0.85rem;
+            min-width: 150px;
+            box-shadow: 0 8px 18px rgba(90, 72, 52, 0.06);
+        }
+
+        .profile-pill span {
+            display: block;
+            color: var(--barber-muted);
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .profile-pill strong {
+            display: block;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def _use_fallback_background():
+    """Fungsi helper untuk menggunakan fallback background"""
+    st.markdown(
+        """
+        <style>
+        .stApp {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+        }
+
+        .main .block-container {
+            background: rgba(255, 255, 255, 0.95) !important;
+            padding: 2rem !important;
+            border-radius: 10px !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )

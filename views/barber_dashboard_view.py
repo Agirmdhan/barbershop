@@ -3,36 +3,52 @@ import pandas as pd
 from controllers.barber_controller import BarberController
 from controllers.reservasi_controller import ReservasiController
 from utils.helpers import format_currency
+from utils.navbar import create_sidebar_navigation
 
 
 def show_barber_dashboard():
     """Dashboard dan portal untuk barber."""
-    from utils.helpers import logout
-
-    col1, col2, col3 = st.columns([3, 1, 1])
-    with col1:
-        st.subheader("💈 Portal Barber")
-    with col2:
-        st.write("")
-    with col3:
-        if st.button("🚪 Logout"):
-            logout()
-            st.rerun()
-
-    st.write("Selamat datang di portal barber. Terima reservasi, konfirmasi atau tolak, dan pantau status layanan Anda.")
-
+    from utils.helpers import logout, add_dashboard_theme
+    
+    add_dashboard_theme()
     barber = st.session_state.get('user_data', {})
-    st.write(f"**Nama:** {barber.get('nama', '-')}")
-    st.write(f"**Spesialisasi:** {barber.get('spesialisasi', '-')}")
-    st.write(f"**Status:** {barber.get('status', '-')}")
-
-    menu = st.selectbox(
-        "Pilih menu barber:",
-        ["Dashboard", "Reservasi Saya", "Status Barber"]
+    
+    # Header
+    st.markdown(
+        f"""
+        <div class="dashboard-shell">
+            <div class="dashboard-kicker">Home > Portal Barber</div>
+            <div class="dashboard-title">Portal Barber</div>
+            <p class="dashboard-subtitle">Terima reservasi, konfirmasi atau tolak, dan pantau status layanan Anda.</p>
+            <div class="profile-strip">
+                <div class="profile-pill"><span>Nama</span><strong>{barber.get('nama', '-')}</strong></div>
+                <div class="profile-pill"><span>Spesialisasi</span><strong>{barber.get('spesialisasi', '-')}</strong></div>
+                <div class="profile-pill"><span>Status</span><strong>{barber.get('status', '-')}</strong></div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
+    
+    st.write("")
+    
+    # Navigation menu - menggunakan sidebar
+    menu_items = [
+        ("Dashboard", "Dashboard"),
+        ("Reservasi", "Reservasi Saya"),
+        ("Status", "Status Barber")
+    ]
+    
+    current_page = st.session_state.get('page', 'Dashboard')
+    selected_page = create_sidebar_navigation(menu_items, current_page, key_prefix="barber")
+    
+    st.session_state.page = selected_page
 
     reservasi_controller = ReservasiController()
     barber_controller = BarberController()
+
+    # Gunakan selected_page dari navbar sebagai menu
+    menu = selected_page
 
     if menu == "Dashboard":
         st.write("#### Ringkasan")
@@ -43,7 +59,34 @@ def show_barber_dashboard():
         reservasi_list = reservasi_controller.get_reservasi_by_barber(barber.get('id_pegawai'))
 
         if reservasi_list:
-            df_reservasi = pd.DataFrame(reservasi_list)
+            # Transform data to display names instead of IDs
+            display_data = []
+            for reservasi in reservasi_list:
+                # Get pelanggan name
+                pelanggan = reservasi_controller.db.get_pelanggan_by_id(reservasi.get('id_pelanggan'))
+                nama_pelanggan = pelanggan.get('nama', '-') if pelanggan else '-'
+                
+                # Get layanan name
+                layanan = reservasi_controller.db.get_layanan_by_id(reservasi.get('id_layanan'))
+                nama_layanan = layanan.get('nama_layanan', '-') if layanan else '-'
+                
+                # Get barber name
+                barber_data = reservasi_controller.db.get_barber_by_id(reservasi.get('id_barber'))
+                nama_barber = barber_data.get('nama', '-') if barber_data else '-'
+                
+                display_data.append({
+                    'ID Reservasi': reservasi.get('id_reservasi'),
+                    'Pelanggan': nama_pelanggan,
+                    'Barber': nama_barber,
+                    'Layanan': nama_layanan,
+                    'Tanggal': reservasi.get('tanggal'),
+                    'Jam': reservasi.get('jam'),
+                    'Status': reservasi.get('status'),
+                    'Catatan': reservasi.get('catatan', ''),
+                    'Tanggal Dibuat': reservasi.get('tanggal_dibuat', '')
+                })
+            
+            df_reservasi = pd.DataFrame(display_data)
             st.dataframe(df_reservasi, use_container_width=True)
 
             pending_reservasi = [r for r in reservasi_list if r.get('status') == 'Pending']
@@ -68,7 +111,7 @@ def show_barber_dashboard():
 
                     if success:
                         st.success(message)
-                        st.experimental_rerun()
+                        st.rerun()
                     else:
                         st.error(message)
             else:
@@ -83,6 +126,6 @@ def show_barber_dashboard():
             success, message = barber_controller.update_status(barber.get('id_pegawai'), status)
             if success:
                 st.success(message)
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.error(message)

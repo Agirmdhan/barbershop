@@ -1,0 +1,18 @@
+PLACEHOLDER UNTUK BACKGROUND IMAGE
+=====================================
+
+File ini adalah placeholder. Untuk menggunakan background image:
+
+1. Download gambar barbershop yang Anda inginkan
+2. Simpan dengan nama: barbershop_bg.jpg atau barbershop_bg.png
+3. Letakkan di folder: assets/
+
+Rekomendasi gambar:
+- Format: JPG atau PNG
+- Ukuran: Minimal 1920x1080px (Full HD)
+- File size: Kurang dari 2MB untuk performa optimal
+- Konten: Interior barbershop, suasana barbershop, atau tema vintage barbershop
+
+Jika file tidak ditemukan, sistem akan otomatis menggunakan gradient background biru sebagai fallback.
+
+Catatan: Setelah menempatkan gambar, restart aplikasi Streamlit untuk melihat perubahan.

@@ -8,11 +8,22 @@ def show_login_page():
     """Halaman login terpusat untuk pelanggan dan pegawai."""
     initialize_session_state()
     
+    from utils.helpers import add_dashboard_theme
+    add_dashboard_theme()
+    
     col1, col2, col3 = st.columns([1, 2, 1])
     
     with col2:
-        st.title("💈 BARBERCHOP AMARIZ")
-        st.markdown("---")
+        st.markdown(
+            """
+            <div class="dashboard-shell">
+                <div class="dashboard-kicker">Welcome</div>
+                <div class="dashboard-title">Barberchop Amariz</div>
+                <p class="dashboard-subtitle">Masuk ke akun Anda atau daftar sebagai pelanggan baru.</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
         tab1, tab2 = st.tabs(["Login", "Register Pelanggan"])
 
