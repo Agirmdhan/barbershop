@@ -63,13 +63,10 @@ def show_main_dashboard():
     
     # --- MODIFIKASI: Implementasi IndexError ---
     try:
-        # Mencoba mengambil data spesifik di index terakhir (paling baru)
-        # Jika list reservasi kosong, maka memanggil index [-1] akan menyebabkan IndexError
         reservasi_terakhir = reservasi_list[-1]
         
         st.success(f"📌 Highlight Reservasi Paling Baru: ID {reservasi_terakhir.get('id_reservasi')} untuk tanggal {reservasi_terakhir.get('tanggal')} (Status: {reservasi_terakhir.get('status')})")
         
-        # Tampilkan maksimal 5 data terakhir ke dalam tabel
         df_reservasi = pd.DataFrame(reservasi_list[-5:])
         st.dataframe(df_reservasi, use_container_width=True)
         

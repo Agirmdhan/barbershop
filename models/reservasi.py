@@ -79,3 +79,11 @@ class Reservasi:
             self.status = status_baru
             return True
         return False
+
+    def ubah_tanggal(self, tanggal_baru, jam_baru):
+        """Mengubah tanggal dan jam reservasi (hanya jika status Pending atau Dikonfirmasi)."""
+        if self.status in ["Pending", "Dikonfirmasi"]:
+            self.tanggal = tanggal_baru
+            self.jam = jam_baru
+            return True
+        return False

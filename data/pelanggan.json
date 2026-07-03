@@ -34,5 +34,14 @@
     "password": "c70e1410b1f44c7bc8bc93db0cb904f7e6962bdd41f84347e99c660a74fc2ed9",
     "tanggal_daftar": "2026-07-01T15:53:23.394039",
     "role": "Pelanggan"
+  },
+  {
+    "id_pelanggan": "PLG005",
+    "nama": "rehan",
+    "email": "rehan@gmail.com",
+    "nomor_hp": "081263123123",
+    "password": "932f3c1b56257ce8539ac269d7aab42550dacf8818d075f0bdf1990562aae3ef",
+    "tanggal_daftar": "2026-07-03T21:12:12.387671",
+    "role": "Pelanggan"
   }
 ]

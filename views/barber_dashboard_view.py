@@ -7,7 +7,18 @@ from utils.helpers import format_currency
 
 def show_barber_dashboard():
     """Dashboard dan portal untuk barber."""
-    st.subheader("💈 Portal Barber")
+    from utils.helpers import logout
+
+    col1, col2, col3 = st.columns([3, 1, 1])
+    with col1:
+        st.subheader("💈 Portal Barber")
+    with col2:
+        st.write("")
+    with col3:
+        if st.button("🚪 Logout"):
+            logout()
+            st.rerun()
+
     st.write("Selamat datang di portal barber. Terima reservasi, konfirmasi atau tolak, dan pantau status layanan Anda.")
 
     barber = st.session_state.get('user_data', {})

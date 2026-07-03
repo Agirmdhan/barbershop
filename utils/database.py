@@ -83,8 +83,6 @@ class Database:
             print(f"[ERROR] Terjadi kesalahan saat mencoba menulis ke {filename}: {e}")
             
         finally:
-            # Blok FINALLY: Akan SELALU dieksekusi baik saat Try berhasil maupun saat Except terjadi
-            # Sangat berguna untuk meninggalkan jejak/log di terminal backend
             print(f"[LOG FINALLY] Proses I/O pada file '{filename}' telah selesai dieksekusi.")
         # ---------------------------------------
     

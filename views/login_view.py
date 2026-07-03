@@ -11,7 +11,7 @@ def show_login_page():
     col1, col2, col3 = st.columns([1, 2, 1])
     
     with col2:
-        st.title("🔐 Login")
+        st.title("💈 BARBERCHOP AMARIZ")
         st.markdown("---")
 
         tab1, tab2 = st.tabs(["Login", "Register Pelanggan"])

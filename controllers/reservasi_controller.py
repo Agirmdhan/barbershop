@@ -140,6 +140,28 @@ class ReservasiController:
             return True, f"Status reservasi berhasil diubah menjadi {status}"
         return False, "Gagal mengubah status reservasi"
     
+    def ubah_tanggal_reservasi(self, reservasi_id, tanggal_baru, jam_baru):
+        """Mengubah tanggal dan jam reservasi (hanya untuk status Pending atau Dikonfirmasi)."""
+        reservasi = self.db.get_reservasi_by_id(reservasi_id)
+        if not reservasi:
+            return False, "Reservasi tidak ditemukan"
+
+        if reservasi['status'] not in ["Pending", "Dikonfirmasi"]:
+            return False, f"Reservasi dengan status '{reservasi['status']}' tidak dapat diubah tanggalnya"
+
+        # Validasi jam operasional
+        if not self._is_within_operational_hours(jam_baru):
+            return False, f"Jam {jam_baru} berada di luar jam operasional ({self.OPERATING_START}:00 - {self.OPERATING_END}:00)"
+
+        # Validasi ketersediaan barber di tanggal dan jam baru
+        if not self.check_ketersediaan_barber(reservasi['id_barber'], tanggal_baru, jam_baru):
+            return False, f"Barber tidak tersedia pada tanggal {tanggal_baru} jam {jam_baru}. Silakan pilih waktu lain."
+
+        # Update tanggal dan jam reservasi
+        if self.db.update_reservasi(reservasi_id, {'tanggal': tanggal_baru, 'jam': jam_baru}):
+            return True, f"Tanggal reservasi {reservasi_id} berhasil diubah menjadi {tanggal_baru} {jam_baru}"
+        return False, "Gagal mengubah tanggal reservasi"
+
     def check_ketersediaan_barber(self, id_barber, tanggal, jam):
         """Check ketersediaan barber pada tanggal dan jam tertentu."""
         reservasi_list = self.db.get_reservasi_by_barber(id_barber)

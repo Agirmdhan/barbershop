@@ -11,7 +11,18 @@ from utils.helpers import format_currency
 
 def show_pelanggan_dashboard():
     """Dashboard dan portal untuk pelanggan."""
-    st.subheader(" Portal Pelanggan")
+    from utils.helpers import logout
+
+    col1, col2, col3 = st.columns([3, 1, 1])
+    with col1:
+        st.subheader(" Portal Pelanggan")
+    with col2:
+        st.write("")
+    with col3:
+        if st.button("🚪 Logout"):
+            logout()
+            st.rerun()
+
     st.write("Selamat datang di portal pelanggan. Silakan buat reservasi, lihat riwayat, dan cek pembayaran Anda.")
 
     pengguna = st.session_state.get('user_data', {})
@@ -115,6 +126,51 @@ def show_pelanggan_dashboard():
             
             df_reservasi = pd.DataFrame(tampilan_list)
             st.dataframe(df_reservasi, use_container_width=True)
+
+            # --- Form Ubah Tanggal Reservasi ---
+            reservasi_bisa_diubah = [r for r in reservasi_list if r['status'] in ["Pending", "Dikonfirmasi"]]
+
+            if reservasi_bisa_diubah:
+                st.write("---")
+                st.subheader("📅 Ubah Tanggal Reservasi")
+                st.caption("Pilih reservasi dengan status **Pending** atau **Dikonfirmasi** untuk mengubah jadwal.")
+
+                pilihan_reservasi = [r['id_reservasi'] for r in reservasi_bisa_diubah]
+                id_reservasi_selected = st.selectbox(
+                    "Pilih ID Reservasi:",
+                    options=pilihan_reservasi,
+                    format_func=lambda x: f"{x} - {next((r['tanggal'] for r in reservasi_bisa_diubah if r['id_reservasi'] == x), '')} {next((r['jam'] for r in reservasi_bisa_diubah if r['id_reservasi'] == x), '')}"
+                )
+
+                detail_reservasi = next(r for r in reservasi_bisa_diubah if r['id_reservasi'] == id_reservasi_selected)
+                st.info(f"**Reservasi:** {id_reservasi_selected} | **Tanggal Saat Ini:** {detail_reservasi['tanggal']} | **Jam:** {detail_reservasi['jam']} | **Barber:** {next((b['nama'] for b in barber_list if b['id_pegawai'] == detail_reservasi['id_barber']), detail_reservasi['id_barber'])}")
+
+                col1, col2 = st.columns(2)
+                with col1:
+                    tanggal_baru = st.date_input("Tanggal Baru", key="ubah_tanggal")
+                with col2:
+                    jam_operasional = []
+                    for hour in range(9, 22):
+                        for minute in [0, 15, 30, 45]:
+                            if hour == 21 and minute > 0:
+                                break
+                            jam_operasional.append(f"{hour:02d}:{minute:02d}")
+                    jam_baru = st.selectbox("Jam Baru", options=jam_operasional, key="ubah_jam")
+
+                if st.button("Simpan Perubahan Tanggal", type="primary"):
+                    tanggal_baru_str = tanggal_baru.strftime('%Y-%m-%d')
+                    success, message = reservasi_controller.ubah_tanggal_reservasi(
+                        id_reservasi_selected, tanggal_baru_str, jam_baru
+                    )
+                    if success:
+                        st.success(message)
+                        time.sleep(2)
+                        st.rerun()
+                    else:
+                        st.error(message)
+            else:
+                st.write("---")
+                st.info("Tidak ada reservasi dengan status **Pending** atau **Dikonfirmasi** yang dapat diubah tanggalnya.")
         else:
             st.info("Belum ada riwayat reservasi.")
 
