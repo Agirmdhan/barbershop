@@ -1,0 +1,50 @@
+[
+  {
+    "id_layanan": "LAY001",
+    "nama_layanan": "Potong Rambut",
+    "harga": 50000,
+    "durasi": 30,
+    "deskripsi": "Potong rambut standar",
+    "tanggal_dibuat": "2026-06-21T09:12:07.554653"
+  },
+  {
+    "id_layanan": "LAY002",
+    "nama_layanan": "Potong + Cuci",
+    "harga": 75000,
+    "durasi": 45,
+    "deskripsi": "Potong rambut dengan cuci kepala",
+    "tanggal_dibuat": "2026-06-21T09:12:07.572277"
+  },
+  {
+    "id_layanan": "LAY003",
+    "nama_layanan": "Potong + Shaving",
+    "harga": 85000,
+    "durasi": 50,
+    "deskripsi": "Potong rambut dengan cukur kumis dan jenggot",
+    "tanggal_dibuat": "2026-06-21T09:12:07.586117"
+  },
+  {
+    "id_layanan": "LAY004",
+    "nama_layanan": "Shaving",
+    "harga": 40000,
+    "durasi": 20,
+    "deskripsi": "Cukur kumis dan jenggot",
+    "tanggal_dibuat": "2026-06-21T09:12:07.607224"
+  },
+  {
+    "id_layanan": "LAY005",
+    "nama_layanan": "Cuci Kepala",
+    "harga": 25000,
+    "durasi": 15,
+    "deskripsi": "Cuci kepala dengan massage",
+    "tanggal_dibuat": "2026-06-21T09:12:07.619270"
+  },
+  {
+    "id_layanan": "LAY006",
+    "nama_layanan": "perming",
+    "harga": 80000,
+    "durasi": 120,
+    "deskripsi": "perming rambut",
+    "tanggal_dibuat": "2026-06-22T21:53:28.961421"
+  }
+]

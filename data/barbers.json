@@ -1,0 +1,46 @@
+[
+  {
+    "id_pegawai": "BAR001",
+    "nama": "Reza Wijaya",
+    "nohp": "08111111111",
+    "usia": 28,
+    "spesialisasi": "Potong Rambut Modern",
+    "status": "Tersedia",
+    "role": "Barber",
+    "tanggal_dibuat": "2026-06-21T09:12:07.518486"
+  },
+  {
+    "id_pegawai": "BAR002",
+    "nama": "Budi Santoso",
+    "nohp": "08222222222",
+    "usia": 35,
+    "spesialisasi": "Cukur & Shaving",
+    "status": "Tersedia",
+    "role": "Barber",
+    "tanggal_dibuat": "2026-06-21T09:12:07.533846"
+  },
+  {
+    "id_pegawai": "BAR004",
+    "nama": "irfan",
+    "username": "irfan",
+    "password": "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e",
+    "nohp": "081283123",
+    "usia": 34,
+    "spesialisasi": "warnain rambut",
+    "status": "Tersedia",
+    "role": "Barber",
+    "tanggal_dibuat": "2026-06-25T21:07:34.297010"
+  },
+  {
+    "id_pegawai": "BAR005",
+    "nama": "ammar",
+    "username": "ammar",
+    "password": "9ea1d3fe655108e0bf9389f99b90828f690c00d19e6cc0d8a8d01d9d696b47af",
+    "nohp": "061231231",
+    "usia": 17,
+    "spesialisasi": "potong rambut",
+    "status": "Tersedia",
+    "role": "Barber",
+    "tanggal_dibuat": "2026-07-01T16:02:18.473853"
+  }
+]

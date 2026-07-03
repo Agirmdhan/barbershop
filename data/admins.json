@@ -1,0 +1,22 @@
+[
+  {
+    "id_pegawai": "ADM001",
+    "nama": "Admin Barbershop",
+    "nohp": "08123456789",
+    "usia": 30,
+    "username": "admin",
+    "password": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+    "role": "Admin",
+    "tanggal_dibuat": "2026-06-21T09:12:07.515951"
+  },
+  {
+    "id_pegawai": "ADM002",
+    "nama": "rehan",
+    "nohp": "0812312313",
+    "usia": 20,
+    "username": "rehan",
+    "password": "9d3dd43da79985b968136dee69646e9c04746a91b6179671f3a86a63b3ddf2fd",
+    "role": "Admin",
+    "tanggal_dibuat": "2026-06-21T18:02:47.728642"
+  }
+]

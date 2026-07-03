@@ -1,0 +1,20 @@
+[
+  {
+    "id_riwayat": "RIW001",
+    "id_pelanggan": "PLG002",
+    "id_layanan": "LAY006",
+    "tanggal": "2026-06-25 11:21:45",
+    "total": 80000,
+    "catatan": "Layanan selesai",
+    "tanggal_dibuat": "2026-06-25T11:21:45.593779"
+  },
+  {
+    "id_riwayat": "RIW002",
+    "id_pelanggan": "PLG002",
+    "id_layanan": "LAY003",
+    "tanggal": "2026-06-25 11:45:38",
+    "total": 85000,
+    "catatan": "Layanan selesai",
+    "tanggal_dibuat": "2026-06-25T11:45:38.314190"
+  }
+]

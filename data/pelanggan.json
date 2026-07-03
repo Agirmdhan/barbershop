@@ -1,0 +1,38 @@
+[
+  {
+    "id_pelanggan": "PLG001",
+    "nama": "Raihan",
+    "email": "ehan@gmail.com",
+    "nomor_hp": "08111222334",
+    "password": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f",
+    "tanggal_daftar": "2026-06-21T19:00:04.426873",
+    "role": "Pelanggan"
+  },
+  {
+    "id_pelanggan": "PLG002",
+    "nama": "agi",
+    "email": "agi@gmail.com",
+    "nomor_hp": "081231231231",
+    "password": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f",
+    "tanggal_daftar": "2026-06-22T19:56:56.285787",
+    "role": "Pelanggan"
+  },
+  {
+    "id_pelanggan": "PLG003",
+    "nama": "faiz",
+    "email": "faiz@gmail.com",
+    "nomor_hp": "081523124515",
+    "password": "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e",
+    "tanggal_daftar": "2026-06-25T10:40:01.229971",
+    "role": "Pelanggan"
+  },
+  {
+    "id_pelanggan": "PLG004",
+    "nama": "ghulam",
+    "email": "agiramdhan@gmail.com",
+    "nomor_hp": "0123123810",
+    "password": "c70e1410b1f44c7bc8bc93db0cb904f7e6962bdd41f84347e99c660a74fc2ed9",
+    "tanggal_daftar": "2026-07-01T15:53:23.394039",
+    "role": "Pelanggan"
+  }
+]
