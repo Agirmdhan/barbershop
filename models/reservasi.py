@@ -87,3 +87,43 @@ class Reservasi:
             self.jam = jam_baru
             return True
         return False
+    
+    # =======================================================
+    # MATERI 6: IMPLEMENTASI CLASS METHOD
+    # =======================================================
+    
+    @classmethod
+    def from_dict(cls, data):
+        
+        reservasi = cls(
+            id_reservasi=data['id_reservasi'],
+            id_pelanggan=data['id_pelanggan'],
+            id_barber=data['id_barber'],
+            id_layanan=data['id_layanan'],
+            tanggal=data['tanggal'],
+            jam=data['jam'],
+            status=data.get('status', 'Pending')
+        )
+        
+        if 'catatan' in data:
+            reservasi.catatan = data['catatan']
+        
+        if 'tanggal_dibuat' in data:
+            from datetime import datetime
+            reservasi.tanggal_dibuat = datetime.fromisoformat(data['tanggal_dibuat'])
+        
+        return reservasi
+    
+    @classmethod
+    def buat_reservasi_baru(cls, id_pelanggan, id_barber, id_layanan, tanggal, jam):
+        # Generate ID unik berdasarkan timestamp
+        id_reservasi = f"R{int(datetime.now().timestamp())}"
+        
+        # Validasi format tanggal dan jam
+        try:
+            datetime.strptime(tanggal, '%Y-%m-%d')
+            datetime.strptime(jam, '%H:%M')
+        except ValueError:
+            raise ValueError("Format tanggal harus YYYY-MM-DD dan format jam harus HH:MM")
+        
+        return cls(id_reservasi, id_pelanggan, id_barber, id_layanan, tanggal, jam)

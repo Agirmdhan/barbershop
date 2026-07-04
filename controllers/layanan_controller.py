@@ -26,16 +26,30 @@ class LayananController:
         return self.db.get_layanan_by_id(layanan_id)
     
     def update_layanan(self, layanan_id, nama_layanan=None, harga=None, durasi=None, deskripsi=None):
-        """Update data layanan"""
+        """Update data layanan dengan validasi"""
         layanan_data = {}
+        
+        # Validasi harga jika diberikan
+        if harga is not None:
+            if not Layanan.validasi_nilai_positif(harga):
+                return False, "Harga harus lebih besar dari 0"
+            layanan_data['harga'] = harga
+        
+        # Validasi durasi jika diberikan
+        if durasi is not None:
+            if not Layanan.validasi_nilai_positif(durasi):
+                return False, "Durasi harus lebih besar dari 0"
+            layanan_data['durasi'] = durasi
+        
+        # Update field lain
         if nama_layanan:
             layanan_data['nama_layanan'] = nama_layanan
-        if harga:
-            layanan_data['harga'] = harga
-        if durasi:
-            layanan_data['durasi'] = durasi
-        if deskripsi:
+        if deskripsi is not None:
             layanan_data['deskripsi'] = deskripsi
+        
+        # Jika tidak ada data yang diupdate
+        if not layanan_data:
+            return False, "Tidak ada data yang diupdate"
         
         if self.db.update_layanan(layanan_id, layanan_data):
             return True, "Layanan berhasil diupdate"

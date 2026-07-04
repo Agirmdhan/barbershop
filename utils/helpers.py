@@ -38,6 +38,181 @@ def format_date(date_str):
         return date_str
     return str(date_str)
 
+# =======================================================
+# MATERI 5: IMPLEMENTASI DUCK TYPING
+# =======================================================
+
+def tampilkan_info_umum(obj):
+    """
+    Duck Typing: Menampilkan informasi dari ANY object yang punya method tampilkan_info()
+    
+    Fungsi ini bekerja dengan berbagai tipe object (Layanan, Reservasi, Pembayaran, dll)
+    tanpa perlu check tipe object. Yang penting adalah object punya method tampilkan_info().
+    
+    Args:
+        obj: Object apapun (Layanan, Reservasi, Pembayaran, dll)
+        
+    Returns:
+        String informasi dari object
+        
+    Raises:
+        TypeError: Jika object tidak punya method tampilkan_info()
+    """
+    # Duck typing: "If it walks like a duck and quacks like a duck, it's a duck"
+    # Kita tidak peduli tipe objectnya, yang penting ada method tampilkan_info()
+    if hasattr(obj, 'tampilkan_info'):
+        return obj.tampilkan_info()
+    raise TypeError(f"Object {type(obj).__name__} tidak memiliki method tampilkan_info()")
+
+
+def hitung_statistik_umum(data_list):
+    """
+    Duck Typing: Menghitung statistik dari LIST apapun yang punya atribut 'total'
+    
+    Bisa dipakai untuk: pembayaran_list, riwayat_list, reservasi_list
+    Yang penting adalah setiap item punya key 'total' (untuk dictionary) atau atribut 'total' (untuk object)
+    
+    Args:
+        data_list: List of dictionaries atau list of objects
+        
+    Returns:
+        Dictionary berisi statistik (total, count, rata_rata)
+    """
+    if not data_list:
+        return {'total': 0, 'count': 0, 'rata_rata': 0, 'maks': 0, 'min': 0}
+    
+    # Ekstrak nilai total dari setiap item (bisa dictionary atau object)
+    nilai_list = []
+    for item in data_list:
+        if isinstance(item, dict):
+            # Jika dictionary, ambil dari key 'total'
+            nilai = item.get('total', 0)
+        elif hasattr(item, 'total'):
+            # Jika object, ambil dari atribut 'total'
+            nilai = item.total
+        else:
+            # Skip item yang tidak punya total
+            continue
+        nilai_list.append(nilai)
+    
+    if not nilai_list:
+        return {'total': 0, 'count': 0, 'rata_rata': 0, 'maks': 0, 'min': 0}
+    
+    total = sum(nilai_list)
+    count = len(nilai_list)
+    
+    return {
+        'total': total,
+        'count': count,
+        'rata_rata': total / count if count > 0 else 0,
+        'maks': max(nilai_list),
+        'min': min(nilai_list)
+    }
+
+
+def filter_by_status(data_list, status_dicari):
+    """
+    Duck Typing: Filter list apapun berdasarkan status
+    
+    Bisa filter: reservasi, pembayaran, riwayat, dll
+    Yang penting adalah item punya key 'status' (untuk dictionary) atau atribut 'status' (untuk object)
+    
+    Args:
+        data_list: List of dictionaries atau list of objects
+        status_dicari: Status yang ingin difilter (contoh: 'Pending', 'Lunas', 'Selesai')
+        
+    Returns:
+        List yang sudah difilter
+    """
+    hasil_filter = []
+    
+    for item in data_list:
+        # Duck typing: cek status tanpa peduli tipe data
+        if isinstance(item, dict):
+            status = item.get('status')
+        elif hasattr(item, 'status'):
+            status = item.status
+        else:
+            continue
+        
+        if status == status_dicari:
+            hasil_filter.append(item)
+    
+    return hasil_filter
+
+
+def format_harga_umum(obj):
+    """
+    Duck Typing: Format harga dari ANY object yang punya 'harga' atau 'total'
+    
+    Bisa format: Layanan (punya 'harga'), Pembayaran (punya 'total'), Riwayat (punya 'total')
+    
+    Args:
+        obj: Object atau dictionary yang punya 'harga' atau 'total'
+        
+    Returns:
+        String format Rupiah (contoh: "Rp 50,000")
+    """
+    # Cek berbagai kemungkinan atribut harga
+    if isinstance(obj, dict):
+        nilai = obj.get('harga') or obj.get('total', 0)
+    elif hasattr(obj, 'harga'):
+        nilai = obj.harga
+    elif hasattr(obj, 'total'):
+        nilai = obj.total
+    else:
+        return format_currency(0)
+    
+    return format_currency(nilai)
+
+
+def proses_aksi_umum(obj, nama_method, *args, **kwargs):
+    """
+    Duck Typing: Panggil method apapun yang ada di object
+    
+    Contoh penggunaan:
+        proses_aksi_umum(reservasi, 'konfirmasi_reservasi')
+        proses_aksi_umum(pembayaran, 'proses_pembayaran')
+        proses_aksi_umum(layanan, 'update_harga', 60000)
+    
+    Args:
+        obj: Object apapun
+        nama_method: Nama method yang ingin dipanggil (string)
+        *args, **kwargs: Arguments untuk method tersebut
+        
+    Returns:
+        Hasil dari method yang dipanggil
+        
+    Raises:
+        AttributeError: Jika object tidak punya method tersebut
+    """
+    if hasattr(obj, nama_method):
+        method = getattr(obj, nama_method)
+        return method(*args, **kwargs)
+    raise AttributeError(f"Object {type(obj).__name__} tidak memiliki method '{nama_method}'")
+
+
+def dapatkan_nilai_umum(obj, *nama_atribut):
+    """
+    Duck Typing: Ambil nilai atribut dari object dengan berbagai kemungkinan nama
+    
+    Berguna untuk backward compatibility atau migrasi data dimana nama atribut bisa berbeda.
+    
+    Args:
+        obj: Object atau dictionary
+        *nama_atribut: Nama-nama atribut yang mungkin (contoh: 'id', 'id_pelanggan', 'id_reservasi')
+        
+    Returns:
+        Nilai atribut yang ditemukan pertama kali, atau None
+    """
+    for atribut in nama_atribut:
+        if isinstance(obj, dict):
+            if atribut in obj:
+                return obj[atribut]
+        elif hasattr(obj, atribut):
+            return getattr(obj, atribut)
+    return None
+
 def is_logged_in():
     """Check jika user sudah login"""
     return st.session_state.get('logged_in', False)

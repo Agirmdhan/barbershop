@@ -34,15 +34,66 @@ class Layanan:
         }
     
     def update_harga(self, harga_baru):
-        """Update harga layanan"""
-        if harga_baru > 0:
+        """Update harga layanan dengan memanfaatkan @staticmethod untuk validasi"""
+        if self.validasi_nilai_positif(harga_baru):
             self.harga = harga_baru
             return True
         return False
     
     def update_durasi(self, durasi_baru):
-        """Update durasi layanan"""
-        if durasi_baru > 0:
+        """Update durasi layanan dengan memanfaatkan @staticmethod untuk validasi"""
+        if self.validasi_nilai_positif(durasi_baru):
             self.durasi = durasi_baru
             return True
         return False
+
+    # =======================================================
+    # MATERI 6: IMPLEMENTASI CLASS METHOD & STATIC METHOD
+    # =======================================================
+
+    @staticmethod
+    def validasi_nilai_positif(angka):
+        return isinstance(angka, (int, float)) and angka > 0
+    
+    @classmethod
+    def from_dict(cls, data):
+        
+        layanan = cls(
+            id_layanan=data['id_layanan'],
+            nama_layanan=data['nama_layanan'],
+            harga=data['harga'],
+            durasi=data['durasi'],
+            deskripsi=data.get('deskripsi', '')
+        )
+        
+        # Set tanggal_dibuat jika ada di data
+        if 'tanggal_dibuat' in data:
+            from datetime import datetime
+            layanan.tanggal_dibuat = datetime.fromisoformat(data['tanggal_dibuat'])
+        
+        return layanan
+    
+    @classmethod
+    def buat_layanan_baru(cls, nama_layanan, harga, durasi, deskripsi=""):
+        """
+        Class method factory untuk membuat layanan baru dengan ID otomatis.
+        
+        Args:
+            nama_layanan: Nama layanan
+            harga: Harga layanan
+            durasi: Durasi dalam menit
+            deskripsi: Deskripsi opsional
+            
+        Returns:
+            Instance Layanan dengan ID yang di-generate
+        """
+        # Generate ID unik berdasarkan timestamp
+        id_layanan = f"L{int(datetime.now().timestamp())}"
+        
+        # Validasi input menggunakan static method
+        if not cls.validasi_nilai_positif(harga):
+            raise ValueError("Harga harus lebih besar dari 0")
+        if not cls.validasi_nilai_positif(durasi):
+            raise ValueError("Durasi harus lebih besar dari 0")
+        
+        return cls(id_layanan, nama_layanan, harga, durasi, deskripsi)

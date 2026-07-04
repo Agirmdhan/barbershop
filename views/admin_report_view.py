@@ -6,7 +6,7 @@ from controllers.layanan_controller import LayananController
 from controllers.reservasi_controller import ReservasiController
 from controllers.pembayaran_controller import PembayaranController
 from controllers.riwayat_controller import RiwayatController
-from utils.helpers import format_currency
+from utils.helpers import format_currency, hitung_statistik_umum, filter_by_status
 
 def show_main_dashboard():
     """Dashboard Utama dengan Statistik"""
@@ -116,7 +116,8 @@ def show_laporan_page():
             
             # Summary
             st.write("##### Ringkasan")
-            st.write(f"Total Reservasi: {len(reservasi_list)}")
+            total_status = hitung_statistik_umum([{'total': 1} for _ in reservasi_list])
+            st.write(f"Total Reservasi: {total_status['count']}")
         else:
             st.info("Tidak ada data")
     

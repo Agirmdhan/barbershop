@@ -240,5 +240,16 @@
     "status": "Dikonfirmasi",
     "catatan": "",
     "tanggal_dibuat": "2026-07-04T02:02:05.556777"
+  },
+  {
+    "id_reservasi": "RES023",
+    "id_pelanggan": "PLG005",
+    "id_barber": "BAR005",
+    "id_layanan": "LAY002",
+    "tanggal": "2026-07-04",
+    "jam": "09:00",
+    "status": "Pending",
+    "catatan": "",
+    "tanggal_dibuat": "2026-07-04T18:16:13.797348"
   }
 ]
