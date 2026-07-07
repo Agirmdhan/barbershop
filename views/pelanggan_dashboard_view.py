@@ -121,7 +121,7 @@ def show_pelanggan_dashboard():
         reservasi_list = reservasi_controller.get_reservasi_by_pelanggan(pengguna.get('id_pelanggan'))
 
         if reservasi_list:
-            barber_list = barber_controller.get_available_barbers()
+            barber_list = barber_controller.get_all_barbers()
             layanan_list = layanan_controller.get_all_layanan() 
             
             tampilan_list = []

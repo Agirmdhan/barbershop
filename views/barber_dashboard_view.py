@@ -125,6 +125,10 @@ def show_barber_dashboard():
         if st.button("Simpan Status"):
             success, message = barber_controller.update_status(barber.get('id_pegawai'), status)
             if success:
+                # Update session state dengan data terbaru dari database
+                updated_barber = barber_controller.get_barber_by_id(barber.get('id_pegawai'))
+                if updated_barber:
+                    st.session_state.user_data = updated_barber
                 st.success(message)
                 st.rerun()
             else:
