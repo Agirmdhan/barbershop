@@ -45,7 +45,6 @@ def format_date(date_str):
 def tampilkan_info_umum(obj):
     """
     Duck Typing: Menampilkan informasi dari ANY object yang punya method tampilkan_info()
-    
     Fungsi ini bekerja dengan berbagai tipe object (Layanan, Reservasi, Pembayaran, dll)
     tanpa perlu check tipe object. Yang penting adalah object punya method tampilkan_info().
     
@@ -142,17 +141,7 @@ def filter_by_status(data_list, status_dicari):
 
 
 def format_harga_umum(obj):
-    """
-    Duck Typing: Format harga dari ANY object yang punya 'harga' atau 'total'
     
-    Bisa format: Layanan (punya 'harga'), Pembayaran (punya 'total'), Riwayat (punya 'total')
-    
-    Args:
-        obj: Object atau dictionary yang punya 'harga' atau 'total'
-        
-    Returns:
-        String format Rupiah (contoh: "Rp 50,000")
-    """
     # Cek berbagai kemungkinan atribut harga
     if isinstance(obj, dict):
         nilai = obj.get('harga') or obj.get('total', 0)
@@ -167,25 +156,6 @@ def format_harga_umum(obj):
 
 
 def proses_aksi_umum(obj, nama_method, *args, **kwargs):
-    """
-    Duck Typing: Panggil method apapun yang ada di object
-    
-    Contoh penggunaan:
-        proses_aksi_umum(reservasi, 'konfirmasi_reservasi')
-        proses_aksi_umum(pembayaran, 'proses_pembayaran')
-        proses_aksi_umum(layanan, 'update_harga', 60000)
-    
-    Args:
-        obj: Object apapun
-        nama_method: Nama method yang ingin dipanggil (string)
-        *args, **kwargs: Arguments untuk method tersebut
-        
-    Returns:
-        Hasil dari method yang dipanggil
-        
-    Raises:
-        AttributeError: Jika object tidak punya method tersebut
-    """
     if hasattr(obj, nama_method):
         method = getattr(obj, nama_method)
         return method(*args, **kwargs)
@@ -193,18 +163,7 @@ def proses_aksi_umum(obj, nama_method, *args, **kwargs):
 
 
 def dapatkan_nilai_umum(obj, *nama_atribut):
-    """
-    Duck Typing: Ambil nilai atribut dari object dengan berbagai kemungkinan nama
-    
-    Berguna untuk backward compatibility atau migrasi data dimana nama atribut bisa berbeda.
-    
-    Args:
-        obj: Object atau dictionary
-        *nama_atribut: Nama-nama atribut yang mungkin (contoh: 'id', 'id_pelanggan', 'id_reservasi')
-        
-    Returns:
-        Nilai atribut yang ditemukan pertama kali, atau None
-    """
+   
     for atribut in nama_atribut:
         if isinstance(obj, dict):
             if atribut in obj:
@@ -231,72 +190,6 @@ def logout():
     st.session_state.user_role = None
     st.session_state.user_data = None
     st.session_state.page = 'login'
-
-def add_background_image(image_path=None):
-    """
-    Menambahkan background image ke halaman Streamlit dengan data URL
-    agar file asset lokal bisa tampil di browser.
-    """
-    import base64
-    import os
-
-    if image_path is None:
-        possible_paths = [
-            "assets/barbershop_bg.png",
-            "assets/barbershop_bg.jpg",
-            "assets/barbershop_bg.jpeg",
-            "barbershop_bg.png",
-            "barbershop_bg.jpg",
-        ]
-
-        image_path = None
-        for path in possible_paths:
-            if os.path.exists(path):
-                image_path = path
-                break
-
-    if image_path and os.path.exists(image_path):
-        try:
-            with open(image_path, "rb") as image_file:
-                image_data = image_file.read()
-
-            header = image_data[:8]
-            is_png = header[:4] == b"\x89PNG"
-            is_jpeg = header[:3] == b"\xff\xd8\xff"
-
-            if not (is_png or is_jpeg):
-                _use_fallback_background()
-                return
-
-            mime_type = "image/png" if is_png else "image/jpeg"
-            encoded_image = base64.b64encode(image_data).decode()
-            image_url = f"data:{mime_type};base64,{encoded_image}"
-
-            st.markdown(
-                f"""
-                <style>
-                .stApp {{
-                    background-image: url('{image_url}') !important;
-                    background-size: cover !important;
-                    background-position: center !important;
-                    background-repeat: no-repeat !important;
-                    background-attachment: fixed !important;
-                }}
-
-                .main .block-container {{
-                    background: rgba(255, 255, 255, 0.88) !important;
-                    padding: 2rem !important;
-                    border-radius: 10px !important;
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16) !important;
-                }}
-                </style>
-                """,
-                unsafe_allow_html=True,
-            )
-        except Exception:
-            _use_fallback_background()
-    else:
-        _use_fallback_background()
 
 
 def add_dashboard_theme():
