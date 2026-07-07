@@ -40,9 +40,9 @@ def show_reservasi_management():
         if reservasi_list:
             tampilan_list = []
             for res in reservasi_list:
-                nama_pelanggan = next((p['nama'] for p in pelanggan_list if p['id_pelanggan'] == res.get('id_pelanggan')), res.get('id_pelanggan'))
-                nama_barber = next((b['nama'] for b in barber_list if b['id_pegawai'] == res.get('id_barber')), res.get('id_barber'))
-                nama_layanan = next((l['nama_layanan'] for l in layanan_list if l['id_layanan'] == res.get('id_layanan')), res.get('id_layanan'))
+                nama_pelanggan = next((p['nama'] for p in pelanggan_list if p['id_pelanggan'] == res.get('id_pelanggan')), '-')
+                nama_barber = next((b['nama'] for b in barber_list if b['id_pegawai'] == res.get('id_barber')), '-')
+                nama_layanan = next((l['nama_layanan'] for l in layanan_list if l['id_layanan'] == res.get('id_layanan')), '-')
                 
                 tampilan_list.append({
                     "ID Reservasi": res.get('id_reservasi'),

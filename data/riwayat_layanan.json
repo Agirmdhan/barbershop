@@ -16,5 +16,23 @@
     "total": 85000,
     "catatan": "Layanan selesai",
     "tanggal_dibuat": "2026-06-25T11:45:38.314190"
+  },
+  {
+    "id_riwayat": "RIW003",
+    "id_pelanggan": "PLG002",
+    "id_layanan": "LAY001",
+    "tanggal": "2026-07-07 19:46:59",
+    "total": 60000,
+    "catatan": "Layanan selesai",
+    "tanggal_dibuat": "2026-07-07T19:46:59.103364"
+  },
+  {
+    "id_riwayat": "RIW004",
+    "id_pelanggan": "PLG002",
+    "id_layanan": "LAY001",
+    "tanggal": "2026-07-07 19:48:12",
+    "total": 60000,
+    "catatan": "Layanan selesai",
+    "tanggal_dibuat": "2026-07-07T19:48:12.071515"
   }
 ]

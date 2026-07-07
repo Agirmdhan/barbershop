@@ -60,6 +60,12 @@ def show_main_dashboard():
     # Recent Reservations
     st.write("#### Reservasi Terbaru")
     reservasi_list = reservasi_controller.get_all_reservasi()
+    barber_controller_res = BarberController()
+    pelanggan_controller_res = PelangganController()
+    layanan_controller_res = LayananController()
+    all_barbers = {b['id_pegawai']: b['nama'] for b in barber_controller_res.get_all_barbers()}
+    all_pelanggan = {p['id_pelanggan']: p['nama'] for p in pelanggan_controller_res.get_all_pelanggan()}
+    all_layanan = {l['id_layanan']: l['nama_layanan'] for l in layanan_controller_res.get_all_layanan()}
     
     # --- MODIFIKASI: Implementasi IndexError ---
     try:
@@ -67,7 +73,20 @@ def show_main_dashboard():
         
         st.success(f"📌 Highlight Reservasi Paling Baru: ID {reservasi_terakhir.get('id_reservasi')} untuk tanggal {reservasi_terakhir.get('tanggal')} (Status: {reservasi_terakhir.get('status')})")
         
-        df_reservasi = pd.DataFrame(reservasi_list[-5:])
+        # Transform ID ke Nama untuk ditampilkan
+        display_reservasi = []
+        for r in reservasi_list[-5:]:
+            display_reservasi.append({
+                'ID Reservasi': r.get('id_reservasi'),
+                'Pelanggan': all_pelanggan.get(r.get('id_pelanggan'), r.get('id_pelanggan')),
+                'Barber': all_barbers.get(r.get('id_barber'), r.get('id_barber')),
+                'Layanan': all_layanan.get(r.get('id_layanan'), r.get('id_layanan')),
+                'Tanggal': r.get('tanggal'),
+                'Jam': r.get('jam'),
+                'Status': r.get('status'),
+                'Catatan': r.get('catatan', '')
+            })
+        df_reservasi = pd.DataFrame(display_reservasi)
         st.dataframe(df_reservasi, use_container_width=True)
         
     except IndexError:
@@ -111,7 +130,27 @@ def show_laporan_page():
             reservasi_list = [r for r in reservasi_list if r.get('status') in status_filter]
         
         if reservasi_list:
-            df = pd.DataFrame(reservasi_list)
+            # Transform ID ke Nama
+            barber_controller_lap = BarberController()
+            pelanggan_controller_lap = PelangganController()
+            layanan_controller_lap = LayananController()
+            all_barbers_lap = {b['id_pegawai']: b['nama'] for b in barber_controller_lap.get_all_barbers()}
+            all_pelanggan_lap = {p['id_pelanggan']: p['nama'] for p in pelanggan_controller_lap.get_all_pelanggan()}
+            all_layanan_lap = {l['id_layanan']: l['nama_layanan'] for l in layanan_controller_lap.get_all_layanan()}
+            
+            display_reservasi = []
+            for r in reservasi_list:
+                display_reservasi.append({
+                    'ID Reservasi': r.get('id_reservasi'),
+                    'Pelanggan': all_pelanggan_lap.get(r.get('id_pelanggan'), r.get('id_pelanggan')),
+                    'Barber': all_barbers_lap.get(r.get('id_barber'), r.get('id_barber')),
+                    'Layanan': all_layanan_lap.get(r.get('id_layanan'), r.get('id_layanan')),
+                    'Tanggal': r.get('tanggal'),
+                    'Jam': r.get('jam'),
+                    'Status': r.get('status'),
+                    'Catatan': r.get('catatan', '')
+                })
+            df = pd.DataFrame(display_reservasi)
             st.dataframe(df, use_container_width=True)
             
             # Summary
