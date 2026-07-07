@@ -160,7 +160,8 @@ def show_pelanggan_dashboard():
                 )
 
                 detail_reservasi = next(r for r in reservasi_bisa_diubah if r['id_reservasi'] == id_reservasi_selected)
-                st.info(f"**Reservasi:** {id_reservasi_selected} | **Tanggal Saat Ini:** {detail_reservasi['tanggal']} | **Jam:** {detail_reservasi['jam']} | **Barber:** {next((b['nama'] for b in barber_list if b['id_pegawai'] == detail_reservasi['id_barber']), detail_reservasi['id_barber'])}")
+                nama_barber_reservasi = next((b['nama'] for b in barber_list if b['id_pegawai'] == detail_reservasi['id_barber']), '-')
+                st.info(f"**Reservasi:** {id_reservasi_selected} | **Tanggal Saat Ini:** {detail_reservasi['tanggal']} | **Jam:** {detail_reservasi['jam']} | **Barber:** {nama_barber_reservasi}")
 
                 col1, col2 = st.columns(2)
                 with col1:
