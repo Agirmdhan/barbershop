@@ -7,7 +7,7 @@ from controllers.layanan_controller import LayananController
 
 def show_barber_management():
     """Manajemen Barber"""
-    st.subheader("👨‍💼 Manajemen Barber")
+    st.subheader(" Manajemen Barber")
     
     barber_controller = BarberController()
     
@@ -63,7 +63,7 @@ def show_barber_management():
                 )
                 if success:
                     st.success(message)
-                    time.sleep(2)  # <-- TAMBAHAN
+                    time.sleep(2)  
                     st.rerun()
                 else:
                     st.error(message)
@@ -93,7 +93,7 @@ def show_barber_management():
 
 def show_pelanggan_management():
     """Manajemen Pelanggan"""
-    st.subheader("👥 Manajemen Pelanggan")
+    st.subheader(" Manajemen Pelanggan")
     
     pelanggan_controller = PelangganController()
     
@@ -151,7 +151,6 @@ def show_pelanggan_management():
                     st.error(message)
             else:
                 st.error("Semua field harus diisi!")
-    
     # Tab 3: Update Pelanggan
     with tab3:
         st.write("#### Update Data Pelanggan")
@@ -182,11 +181,9 @@ def show_pelanggan_management():
                     st.error(message)
         else:
             st.info("Belum ada pelanggan terdaftar")
-
-
 def show_layanan_management():
     """Manajemen Layanan"""
-    st.subheader("✂️ Manajemen Layanan")
+    st.subheader(" Manajemen Layanan")
     
     layanan_controller = LayananController()
     

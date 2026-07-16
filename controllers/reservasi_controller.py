@@ -45,7 +45,6 @@ class ReservasiController:
      
         if not self.check_ketersediaan_barber(id_barber, tanggal, jam):
             raise JadwalPenuhError(f"Maaf, Barber sedang tidak tersedia pada tanggal {tanggal} jam {jam}. Silakan pilih waktu lain.")
-        # ==================================================
 
         reservasi_id = self.db.generate_id("RES", "reservasi")
         reservasi = Reservasi(reservasi_id, id_pelanggan, id_barber, id_layanan, tanggal, jam)

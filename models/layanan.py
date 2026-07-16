@@ -47,9 +47,6 @@ class Layanan:
             return True
         return False
 
-    # =======================================================
-    # MATERI 6: IMPLEMENTASI CLASS METHOD & STATIC METHOD
-    # =======================================================
 
     @staticmethod
     def validasi_nilai_positif(angka):
@@ -75,18 +72,7 @@ class Layanan:
     
     @classmethod
     def buat_layanan_baru(cls, nama_layanan, harga, durasi, deskripsi=""):
-        """
-        Class method factory untuk membuat layanan baru dengan ID otomatis.
         
-        Args:
-            nama_layanan: Nama layanan
-            harga: Harga layanan
-            durasi: Durasi dalam menit
-            deskripsi: Deskripsi opsional
-            
-        Returns:
-            Instance Layanan dengan ID yang di-generate
-        """
         # Generate ID unik berdasarkan timestamp
         id_layanan = f"L{int(datetime.now().timestamp())}"
         

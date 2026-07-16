@@ -18,7 +18,6 @@ class LayananController:
         return False, "Gagal menambahkan layanan"
     
     def get_all_layanan(self):
-        """Mendapatkan semua layanan"""
         return self.db.get_all_layanan()
     
     def get_layanan_by_id(self, layanan_id):

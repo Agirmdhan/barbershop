@@ -273,5 +273,27 @@
     "status": "Selesai",
     "catatan": "",
     "tanggal_dibuat": "2026-07-07T19:47:57.207504"
+  },
+  {
+    "id_reservasi": "RES026",
+    "id_pelanggan": "PLG005",
+    "id_barber": "BAR004",
+    "id_layanan": "LAY001",
+    "tanggal": "2026-07-08",
+    "jam": "09:00",
+    "status": "Pending",
+    "catatan": "",
+    "tanggal_dibuat": "2026-07-08T17:49:52.762880"
+  },
+  {
+    "id_reservasi": "RES027",
+    "id_pelanggan": "PLG005",
+    "id_barber": "BAR005",
+    "id_layanan": "LAY001",
+    "tanggal": "2026-07-08",
+    "jam": "09:00",
+    "status": "Dikonfirmasi",
+    "catatan": "",
+    "tanggal_dibuat": "2026-07-08T17:50:00.547050"
   }
 ]

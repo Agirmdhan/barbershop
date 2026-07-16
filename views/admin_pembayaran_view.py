@@ -6,7 +6,7 @@ from utils.helpers import format_currency
 
 def show_pembayaran_management():
     """Manajemen Pembayaran"""
-    st.subheader("💳 Manajemen Pembayaran")
+    st.subheader(" Manajemen Pembayaran")
     
     pembayaran_controller = PembayaranController()
     reservasi_controller = ReservasiController()

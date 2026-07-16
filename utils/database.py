@@ -72,19 +72,15 @@ class Database:
     
     def write_json(self, filename, data):
         """Menulis ke file JSON"""
-        # --- IMPLEMENTASI Try-Except-Finally ---
+        # Try-Except-Finally
         try:
             # Blok TRY: Mencoba membuka dan menulis data ke file
             with open(filename, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
-                
         except Exception as e:
-            # Blok EXCEPT: Menangkap error jika gagal menulis (misal: memori penuh atau folder read-only)
             print(f"[ERROR] Terjadi kesalahan saat mencoba menulis ke {filename}: {e}")
-            
         finally:
             print(f"[LOG FINALLY] Proses I/O pada file '{filename}' telah selesai dieksekusi.")
-        # ---------------------------------------
     
     # ========== ADMIN OPERATIONS ==========
     

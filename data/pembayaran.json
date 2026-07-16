@@ -223,5 +223,23 @@
     "status": "Lunas",
     "tanggal_bayar": "2026-07-07T19:48:03.267417",
     "tanggal_dibuat": "2026-07-07T19:47:57.210008"
+  },
+  {
+    "id_pembayaran": "PAY026",
+    "id_reservasi": "RES026",
+    "total": 60000,
+    "metode": "Tunai",
+    "status": "Pending",
+    "tanggal_bayar": null,
+    "tanggal_dibuat": "2026-07-08T17:49:52.768128"
+  },
+  {
+    "id_pembayaran": "PAY027",
+    "id_reservasi": "RES027",
+    "total": 60000,
+    "metode": "Transfer Bank",
+    "status": "Lunas",
+    "tanggal_bayar": "2026-07-08T17:50:52.726596",
+    "tanggal_dibuat": "2026-07-08T17:50:00.567139"
   }
 ]

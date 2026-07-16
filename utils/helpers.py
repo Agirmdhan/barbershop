@@ -38,45 +38,18 @@ def format_date(date_str):
         return date_str
     return str(date_str)
 
-# =======================================================
-# MATERI 5: IMPLEMENTASI DUCK TYPING
-# =======================================================
+
 
 def tampilkan_info_umum(obj):
-    """
-    Duck Typing: Menampilkan informasi dari ANY object yang punya method tampilkan_info()
-    Fungsi ini bekerja dengan berbagai tipe object (Layanan, Reservasi, Pembayaran, dll)
-    tanpa perlu check tipe object. Yang penting adalah object punya method tampilkan_info().
     
-    Args:
-        obj: Object apapun (Layanan, Reservasi, Pembayaran, dll)
-        
-    Returns:
-        String informasi dari object
-        
-    Raises:
-        TypeError: Jika object tidak punya method tampilkan_info()
-    """
-    # Duck typing: "If it walks like a duck and quacks like a duck, it's a duck"
-    # Kita tidak peduli tipe objectnya, yang penting ada method tampilkan_info()
+   
     if hasattr(obj, 'tampilkan_info'):
         return obj.tampilkan_info()
     raise TypeError(f"Object {type(obj).__name__} tidak memiliki method tampilkan_info()")
 
 
 def hitung_statistik_umum(data_list):
-    """
-    Duck Typing: Menghitung statistik dari LIST apapun yang punya atribut 'total'
     
-    Bisa dipakai untuk: pembayaran_list, riwayat_list, reservasi_list
-    Yang penting adalah setiap item punya key 'total' (untuk dictionary) atau atribut 'total' (untuk object)
-    
-    Args:
-        data_list: List of dictionaries atau list of objects
-        
-    Returns:
-        Dictionary berisi statistik (total, count, rata_rata)
-    """
     if not data_list:
         return {'total': 0, 'count': 0, 'rata_rata': 0, 'maks': 0, 'min': 0}
     
@@ -110,19 +83,7 @@ def hitung_statistik_umum(data_list):
 
 
 def filter_by_status(data_list, status_dicari):
-    """
-    Duck Typing: Filter list apapun berdasarkan status
     
-    Bisa filter: reservasi, pembayaran, riwayat, dll
-    Yang penting adalah item punya key 'status' (untuk dictionary) atau atribut 'status' (untuk object)
-    
-    Args:
-        data_list: List of dictionaries atau list of objects
-        status_dicari: Status yang ingin difilter (contoh: 'Pending', 'Lunas', 'Selesai')
-        
-    Returns:
-        List yang sudah difilter
-    """
     hasil_filter = []
     
     for item in data_list:
@@ -193,7 +154,6 @@ def logout():
 
 
 def add_dashboard_theme():
-    """Tema dashboard bergaya modern tanpa mengubah logika aplikasi."""
     st.markdown(
         """
         <style>

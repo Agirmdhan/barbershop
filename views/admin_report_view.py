@@ -67,11 +67,11 @@ def show_main_dashboard():
     all_pelanggan = {p['id_pelanggan']: p['nama'] for p in pelanggan_controller_res.get_all_pelanggan()}
     all_layanan = {l['id_layanan']: l['nama_layanan'] for l in layanan_controller_res.get_all_layanan()}
     
-    # --- MODIFIKASI: Implementasi IndexError ---
+    # Implementasi IndexError
     try:
         reservasi_terakhir = reservasi_list[-1]
         
-        st.success(f"📌 Highlight Reservasi Paling Baru: ID {reservasi_terakhir.get('id_reservasi')} untuk tanggal {reservasi_terakhir.get('tanggal')} (Status: {reservasi_terakhir.get('status')})")
+        st.success(f" Highlight Reservasi Paling Baru: ID {reservasi_terakhir.get('id_reservasi')} untuk tanggal {reservasi_terakhir.get('tanggal')} (Status: {reservasi_terakhir.get('status')})")
         
         # Transform ID ke Nama untuk ditampilkan
         display_reservasi = []
@@ -87,13 +87,10 @@ def show_main_dashboard():
                 'Catatan': r.get('catatan', '')
             })
         df_reservasi = pd.DataFrame(display_reservasi)
-        st.dataframe(df_reservasi, use_container_width=True)
-        
+        st.dataframe(df_reservasi, use_container_width=True)  
     except IndexError:
-        # Menangkap error jika tidak ada index [-1] karena list kosong
+        
         st.info("Belum ada reservasi sama sekali. Data tabel kosong.")
-    # -------------------------------------------
-    
     st.write("")
     
     # Available Barbers
@@ -210,14 +207,12 @@ def show_laporan_page():
         
         st.write("##### Ringkasan")
         
-        # --- IMPLEMENTASI ZeroDivisionError dan Try-Except-Else ---
+        # ZeroDivisionError dan TryExceptEls
         try:
-            rata_rata = total_revenue / total_services
-            
+            rata_rata = total_revenue / total_services 
         except ZeroDivisionError:
             rata_rata = 0
             status_kalkulasi = "Belum ada transaksi untuk dihitung (pembagian dengan nol dicegah)."
-            
         else:
             status_kalkulasi = "Perhitungan rata-rata berhasil ditarik."
         # ----------------------------------------------------------
